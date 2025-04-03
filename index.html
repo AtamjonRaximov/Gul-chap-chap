@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="Gul, Gul chap-chap, Gulchapchap, Gul chap chap">
-    <meta name="description" content="Gul chap chap haqida">
+    <meta name="keywords" content="Gul, Gul chap-chap, Gulchapchap, Gul chap chap,asosiy bo'lim">
+    <meta name="description" content="Gul chap chap haqida asosiy sahifa">
     <meta name="robots" content="index, follow">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://i.imgur.com/ywePtTM.jpeg">
@@ -21,12 +21,20 @@
       <main>
         <header>
           <a href="/index.html" class="a_teg"><h1>Gul chap-chap</h1></a>
-          <a href=""><img src="images/hamburger (1).png" alt=""></a>
-          <li>
+          <img src="images/hamburger (1).png" alt="" onclick="openMenu()">
+          <nav class="menu-links">
+            <span class="close-btn" onclick="closeMenu()">&times;</span>
             <a href="/about.html">Biz haqimizda</a>
             <a href="/#mah">Mahsulotlarimiz</a>
             <a href="aloqa.html">Aloqa</a>
-          </li>
+          </nav>
+          <nav class="menu-overlay" id="menuOverlay">
+            <span class="close-btn" onclick="closeMenu()">&times;</span>
+            <a href="/about.html">Biz haqimizda</a>
+            <a href="/#mah">Mahsulotlarimiz</a>
+            <a href="aloqa.html">Aloqa</a>
+          </nav>
+          
         </header>
         <div class="ui_and_picture">
           <div class="ui">
@@ -104,5 +112,6 @@
         </footer>
       </div>
     </div>
+    <script src="main.js"></script>
   </body>
 </html>
