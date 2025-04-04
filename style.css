@@ -6,6 +6,14 @@
 body {
   font-family: Playfair Display;
 }
+body,
+html {
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
 
 .container {
   position: relative;
@@ -28,7 +36,7 @@ main {
       text-decoration: none;
       color: black;
     }
-    li {
+    nav {
       text-decoration: none;
       display: flex;
       gap: 48px;
@@ -46,8 +54,40 @@ main {
     img {
       width: 25px;
       height: 25px;
-      /* display: none; */
+      display: none;
       opacity: 0;
+      cursor: pointer;
+    }
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 1000;
+    }
+    .menu-overlay a {
+      color: white;
+      font-size: 24px;
+      text-decoration: none;
+      margin: 15px;
+      transition: 0.3s;
+    }
+    .menu-overlay a:hover {
+      color: #f1c40f;
+    }
+    .close-btn {
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
     }
   }
   .ui_and_picture {
@@ -144,6 +184,7 @@ main {
   flex-direction: column;
   .child_left {
     display: flex;
+
     flex-direction: column;
     align-items: center;
     gap: 24px;
@@ -229,7 +270,7 @@ footer {
       align-items: center;
       justify-content: space-between;
       height: 56px;
-      li {
+      nav {
         text-decoration: none;
         display: flex;
         gap: 48px;
@@ -315,6 +356,7 @@ footer {
       }
     }
   }
+
   .prject_main {
     display: flex;
     gap: 40px;
@@ -327,6 +369,7 @@ footer {
       justify-content: center;
     }
     .card1 {
+      flex-direction: column-reverse;
       width: 100%;
       border-radius: 24px;
       display: block;
@@ -360,6 +403,8 @@ footer {
       }
     }
     .c2 {
+      display: flex;
+      flex-direction: column-reverse;
       .child_left {
         border-radius: 24px;
       }
@@ -404,7 +449,7 @@ footer {
       align-items: center;
       justify-content: space-between;
       height: 56px;
-      li {
+      nav {
         text-decoration: none;
         display: flex;
         gap: 48px;
@@ -421,11 +466,43 @@ footer {
         }
       }
       img {
-        /* display: block; */
+        display: block;
         opacity: 1;
       }
       img:hover {
         padding: 2px;
+      }
+      .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 1000;
+      }
+      .menu-overlay a {
+        color: white;
+        font-size: 24px;
+        text-decoration: none;
+        margin: 15px;
+        transition: 0.3s;
+      }
+      .menu-overlay a:hover {
+        color: #f1c40f;
+      }
+      .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
       }
     }
     .picture {
@@ -443,6 +520,15 @@ footer {
     }
     .picture_hide {
       opacity: 0;
+    }
+  }
+  .prject_main {
+    .card1 {
+      flex-direction: column-reverse;
+    }
+    .c2 {
+      display: flex;
+      flex-direction: column-reverse;
     }
   }
 }
@@ -500,6 +586,15 @@ footer {
   .prject_main {
     h1 {
       font-size: 16px;
+    }
+  }
+  .prject_main {
+    .card1 {
+      flex-direction: column-reverse;
+    }
+    .c2 {
+      display: flex;
+      flex-direction: column-reverse;
     }
   }
 }
