@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ijtimoyi tarmoqlar linklarini qo‘shish</title>
+    <style>
+      body {
+        font-family: Playfair Display;
+      }
+
+      .navigatsiya {
+        list-style: none;
+        background-color: rgb(255, 225, 0);
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      .navigatsiya li {
+        margin: 0 15px;
+      }
+
+      .navigatsiya a {
+        color: #000000;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .konteyner {
+        padding: 5px;
+        max-width: 800px;
+        margin: auto;
+      }
+
+      .forma {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      input,
+      button {
+        padding: 10px;
+        font-size: 20px;
+        border-radius: 5px;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        width: 150px;
+      }
+
+      .linklarni_chiqarish {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 5px;
+      }
+
+      .link {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .link img {
+        max-width: 100%;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <ul class="navigatsiya">
+        <li><a href="products.html">Mahsulotlar</a></li>
+        <li><a href="link.html" class="active">Linklar qo‘shish</a></li>
+        <li><a href="contact.html">Kontakt qo‘shish</a></li>
+      </ul>
+    </nav>
+
+    <main class="konteyner">
+      <h1>Linklar</h1>
+      <form id="linkForm" class="forma">
+        <input name="title" placeholder="Sarlavha" required />
+        <input name="url" placeholder="URL" required />
+   
+        <button type="submit">Linkni qo‘shish</button>
+      </form>
+
+      <div id="links" class="linklarni_chiqarish"></div>
+    </main>
+
+    <script>
+      const BASE_URL = "http://localhost:8000";
+
+      document
+        .getElementById("linkForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const form = e.target;
+
+          await fetch(`${BASE_URL}/api/links`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              title: form.title.value,
+              url: form.url.value,
+             
+            }),
+          });
+
+          form.reset();
+          yuklashLinklar();
+        });
+
+      async function yuklashLinklar() {
+        const res = await fetch(`${BASE_URL}/api/links`);
+        const data = await res.json();
+        const konteyner = document.getElementById("links");
+        konteyner.innerHTML = "";
+        data.forEach((link) => {
+          const div = document.createElement("div");
+          div.className = "link";
+          div.innerHTML = `
+            <a href="${link.url}" target="_blank">
+             
+              <h3>${link.title}</h3>
+            </a>
+            <button onclick="ochirishLink('${link.id}')">O‘chirish</button>
+          `;
+          konteyner.appendChild(div);
+        });
+      }
+
+      async function ochirishLink(id) {
+        await fetch(`${BASE_URL}/api/links/${id}`, { method: "DELETE" });
+        yuklashLinklar();
+      }
+
+      yuklashLinklar();
+    </script>
+  </body>
+</html>
