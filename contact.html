@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kontakt admin panel</title>
+    <style>
+      body {
+        font-family: Playfair Display, serif;
+      }
+
+      .navbar ul {
+        list-style: none;
+        background-color: rgb(255, 225, 0);
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      .navbar li {
+        margin: 0 15px;
+      }
+
+      .navbar a {
+        color: #000;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .container {
+        padding: 5px;
+        max-width: 800px;
+        margin: auto;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      input,
+      button {
+        padding: 10px;
+        font-size: 20px;
+        border-radius: 5px;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        width: 150px;
+        cursor: pointer;
+        border: none;
+      }
+
+      .mahsulotlarni_chiqarish {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 10px;
+      }
+
+      .product {
+        background: #f9f9f9;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: left;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .product h3 {
+        margin: 0;
+        font-size: 1.2em;
+        color: #333;
+      }
+
+      .product p {
+        margin: 5px 0;
+        color: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="products.html">Mahsulotlar</a></li>
+        <li><a href="link.html">Linklar qo'shish</a></li>
+        <li><a href="contact.html" class="active">Kontakt qo'shish</a></li>
+      </ul>
+    </nav>
+
+    <main class="container">
+      <h1>Kontakt ma'lumotlar</h1>
+      <form id="contactForm" class="form">
+        <input name="name" placeholder="Ism" required />
+        <input name="email" type="email" placeholder="Email" required />
+        <input name="message" placeholder="Xabar" required />
+        <button type="submit">Yuborish</button>
+      </form>
+
+      <div id="contacts" class="mahsulotlarni_chiqarish"></div>
+    </main>
+
+    <script>
+      const BASE_URL = "http://localhost:8000";
+
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const form = e.target;
+          await fetch(`${BASE_URL}/api/contact`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: form.name.value,
+              email: form.email.value,
+              message: form.message.value,
+            }),
+          });
+          form.reset();
+          loadContacts();
+        });
+
+      async function loadContacts() {
+        const res = await fetch(`${BASE_URL}/api/contact`);
+        const data = await res.json();
+        const container = document.getElementById("contacts");
+        container.innerHTML = "";
+        data.forEach((c) => {
+          const div = document.createElement("div");
+          div.className = "product";
+          div.innerHTML = `
+            <h3>${c.name}</h3>
+            <p><strong>Email:</strong> ${c.email}</p>
+            <p><strong>Xabar:</strong> ${c.message}</p>
+          `;
+          container.appendChild(div);
+        });
+      }
+
+      loadContacts();
+    </script>
+  </body>
+</html>
